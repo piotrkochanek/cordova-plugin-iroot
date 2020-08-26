@@ -245,14 +245,15 @@ public class InternalRootDetection {
         boolean simpleCheck = Build.MODEL.contains("Emulator")
             // ||Build.FINGERPRINT.startsWith("unknown") // Meizu Mx Pro will return unknown, so comment it!
             || Build.MODEL.contains("Android SDK built for x86")
-            || Build.BOARD.equals("QC_Reference_Phone") //bluestacks
-            || Build.HOST.startsWith("Build"); //MSI App Player
+            || Build.BOARD.equals("QC_Reference_Phone"); //bluestacks
+            //|| Build.HOST.startsWith("Build"); //MSI App Player // commented, because G3421 will return "BuildHost"
 
         boolean checkGenymotion = Build.MANUFACTURER.contains("Genymotion");
         boolean checkGeneric = Build.FINGERPRINT.startsWith("generic") || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"));
         boolean checkGoogleSDK = Build.MODEL.contains("google_sdk") || "google_sdk".equals(Build.PRODUCT);
+        boolean checkQemu = "goldfish".equals(Build.HARDWARE); // additional test
 
-        boolean result = simpleCheck || checkGenymotion || checkGeneric || checkGoogleSDK;
+        boolean result = simpleCheck || checkGenymotion || checkGeneric || checkGoogleSDK || checkQemu;
 
         LOG.d(
             Constants.LOG_TAG,
